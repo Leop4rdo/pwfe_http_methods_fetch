@@ -1,7 +1,7 @@
 "use strict";
 
-import { openModal, closeModal } from "./modal.js";
-import { getCustomers, createCustomer, deleteCustomer } from "./customer.js";
+import { openModal, closeModal, fillForm } from "./modal.js";
+import { getCustomers, createCustomer, deleteCustomer, getCustomerById, updateCustomer } from "./customer.js";
 
 const updateTable = async () => {
     const customerContainer = document.getElementById("customer-container");
@@ -35,15 +35,26 @@ const createRow = (customer) => {
 };
 
 const saveCustomer = async () => {
-    const costumer = {
-        id: "",
+    let action;
+    let _id;
+
+    const btnDataset = document.getElementById("salvar").dataset;
+
+    if (btnDataset) {
+        action = btnDataset.action;
+        _id = btnDataset.id;
+    }
+
+    const customer = {
+        id: _id,
         nome: document.getElementById("customer-nome-input").value,
         email: document.getElementById("customer-email-input").value,
         celular: document.getElementById("customer-celular-input").value,
         cidade: document.getElementById("customer-cidade-input").value,
     };
 
-    await createCustomer(costumer);
+    if (action) await updateCustomer(customer);
+    else await createCustomer(customer);
 
     closeModal();
 
@@ -63,6 +74,12 @@ const handleContainerClickEvent = async (event) => {
         await deleteCustomer(targetID);
         await updateTable();
     } else if (targetAction === "editar") {
+        const customer = await getCustomerById(targetID);
+
+        fillForm(customer, true);
+
+        openModal();
+        await updateTable();
     }
 };
 
