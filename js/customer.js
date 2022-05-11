@@ -1,6 +1,7 @@
 "use strict";
 
 const url = "https://testeleonid.herokuapp.com/clientes";
+// const url = "http://localhost/leonardo/backend/clientes/";
 
 export const getCustomers = async () => {
     const res = await fetch(url);

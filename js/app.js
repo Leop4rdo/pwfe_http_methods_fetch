@@ -35,31 +35,37 @@ const createRow = (customer) => {
 };
 
 const saveCustomer = async () => {
+    if (!document.getElementById("customer-form").reportValidity()) return;
+
     let action;
     let _id;
 
     const btnDataset = document.getElementById("salvar").dataset;
 
-    if (btnDataset) {
-        action = btnDataset.action;
-        _id = btnDataset.id;
-    }
+    action = btnDataset.action || "add";
+    _id = btnDataset.id || "";
+
+    console.log(document.getElementById("modal-image-input").files[0]);
 
     const customer = {
-        id: _id,
         nome: document.getElementById("customer-nome-input").value,
         email: document.getElementById("customer-email-input").value,
         celular: document.getElementById("customer-celular-input").value,
         cidade: document.getElementById("customer-cidade-input").value,
+        foto: document.getElementById("modal-image").src,
     };
 
-    if (action) await updateCustomer(customer);
+    if (_id != "") customer.id = _id;
+
+    if (action === "edit") await updateCustomer(customer);
     else await createCustomer(customer);
 
     closeModal();
 
     await updateTable();
 };
+
+// write hello world
 
 const handleContainerClickEvent = async (event) => {
     const { target } = event;
@@ -83,8 +89,19 @@ const handleContainerClickEvent = async (event) => {
     }
 };
 
+const maskCelular = ({ target }) => {
+    let text = target.value;
+
+    text = text.replace(/[^0-9]/g, "");
+    text = text.replace(/(.{2})(.{5})(.{4})/, "($1) $2-$3");
+    text = text.replace(/(.{15})(.*)/, "$1");
+
+    target.value = text;
+};
+
 /* EVENTS */
 document.getElementById("cadastrarCliente").addEventListener("click", openModal);
 document.getElementById("salvar").addEventListener("click", saveCustomer);
 document.getElementById("customer-container").addEventListener("click", handleContainerClickEvent);
 window.addEventListener("load", updateTable);
+document.getElementById("customer-celular-input").addEventListener("keyup", maskCelular);

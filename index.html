@@ -43,16 +43,44 @@
                         <h2>Novo Cliente</h2>
                         <span class="modal-close" id="modalClose">&#10006;</span>
                     </header>
-                    <form class="modal-form">
-                        <input type="text" class="modal-field" id="customer-nome-input" placeholder="Nome do Cliente" />
-                        <input type="email" class="modal-field" id="customer-email-input" placeholder="e-mail do Cliente" />
-                        <input
-                            type="text"
-                            class="modal-field"
-                            id="customer-celular-input"
-                            placeholder="Celular do Cliente"
-                        />
-                        <input type="text" class="modal-field" id="customer-cidade-input" placeholder="Cidade do Cliente" />
+                    <form class="modal-form" id="customer-form">
+                        <div class="modal-image-container">
+                            <input type="file" id="modal-image-input" accept="image/*" />
+                            <label for="modal-image-input" id="modal-image-label"></label>
+                            <img src="./img/add.png" alt="foto" id="modal-image" />
+                        </div>
+                        <div class="modal-field-container">
+                            <input
+                                type="text"
+                                class="modal-field"
+                                id="customer-nome-input"
+                                placeholder="Nome do Cliente"
+                                required
+                            />
+                            <input
+                                type="email"
+                                class="modal-field"
+                                id="customer-email-input"
+                                pattern=".+@.+[.}.+"
+                                placeholder="e-mail do Cliente"
+                                required
+                            />
+                            <input
+                                type="tel"
+                                class="modal-field"
+                                id="customer-celular-input"
+                                placeholder="(XX) XXXXX-XXXX"
+                                pattern="^\(?[0-9]{2}\)? ?[0-9]{5}-?[0-9]{4}"
+                                required
+                            />
+                            <input
+                                type="text"
+                                class="modal-field"
+                                id="customer-cidade-input"
+                                placeholder="Cidade do Cliente"
+                                required
+                            />
+                        </div>
                     </form>
                     <footer class="modal-footer">
                         <button class="button green" id="salvar">Salvar</button>
